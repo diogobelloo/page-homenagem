@@ -64,7 +64,7 @@
   <script>
     let chuvaAtivada = false;
     const raiva = new Audio('./Iframe Jorge & Mateus - Fogueira - [DVD Ao Vivo Em Goiânia] - (Clipe Oficial) [aQOZB2uA4ME].mp3')
-    raiva.volume = 0.01
+    raiva.volume = 0.1
     function criarCoracao() {
       const coracao = document.createElement("div");
       coracao.classList.add("heart");
@@ -162,7 +162,7 @@ botaoNao.addEventListener('click', () => {
 
 document.querySelector('footer button:first-child').addEventListener('click', () => {
   const mensagem = document.getElementById('mensagem-especial');
-  
+  raiva.pause()
   // Mostrar a mensagem
   mensagem.style.display = 'block';
 
