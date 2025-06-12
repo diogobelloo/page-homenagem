@@ -42,10 +42,10 @@
     <div class="timeline" id="historia" style="display:none">
       <div><p>Aqui foi o começo de tudo, foto pegada no fundo do baú, sempre soube que era você...</p></div>
       <div><p>Passamos por muitas coisas juntos, você sempre me apoiando...</p></div>
-      <div><p>Se afastamos e depois de um tempo nos reaproximamos novamente.</p></div>
+      <div><p>Se afastamos e depois de um tempo se reaproximamos novamente.</p></div>
       <div><p>Termos se resolvido e conversado, foi a melhor escolha...</p></div>
       <div><p>Obrigado por ser essa parceira e estar comigo sempre.</p></div>
-      <div><p>Não tenho dúvida, quero estar com você e construir algo além...</p></div>
+      <div><p>Não tenho dúvida, quero estar com você e construir algo mais além do que um simples namoro</p></div>
       <div class="fim">
         <section class="pedido">
           <p>E como você fala que nunca te pedir em namoro, te pergunto agora, você aceita namorar comigo ELIZA SANCHES ?</p>
@@ -63,6 +63,7 @@
 </div>
   <script>
     let chuvaAtivada = false;
+    const raiva = new Audio('./Iframe Jorge & Mateus - Fogueira - [DVD Ao Vivo Em Goiânia] - (Clipe Oficial) [aQOZB2uA4ME].mp3')
 
     function criarCoracao() {
       const coracao = document.createElement("div");
@@ -93,6 +94,7 @@
     observer.observe(fim);
 
     function mostrarHistoria() {
+      raiva.play()
       const historia = document.getElementById('historia');
       historia.style.display = 'block';
       historia.scrollIntoView({ behavior: 'smooth' });
