@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feliz Dia dos Namorados</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+  <style>
+    .heart {
+      position: fixed;
+      top: -20px;
+      color: red;
+      animation: cair linear forwards;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    @keyframes cair {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1 id="titulo"></h1>
+      <button class="botao-historia" onclick="mostrarHistoria()">Clique para ver nossa história</button>
+    </header>
+  </main>
+
+  <section>
+    <div class="timeline" id="historia" style="display:none">
+      <div><p>Aqui foi o começo de tudo, foto pegada no fundo do baú, sempre soube que era você...</p></div>
+      <div><p>Passamos por muitas coisas juntos, você sempre me apoiando...</p></div>
+      <div><p>Se afastamos e depois de um tempo nos reaproximamos novamente.</p></div>
+      <div><p>Termos se resolvido e conversado, foi a melhor escolha...</p></div>
+      <div><p>Obrigado por ser essa parceira e estar comigo sempre.</p></div>
+      <div><p>Não tenho dúvida, quero estar com você e construir algo além...</p></div>
+      <div class="fim">
+        <section class="pedido">
+          <p>E como você fala que nunca te pedir em namoro, te pergunto agora, você aceita namorar comigo ELIZA SANCHES ?</p>
+          <footer>
+            <button>SIM</button><button>NÃO</button>
+          </footer>
+        </section>
+      </div>
+
+
+    </div>
+  </section>
+      <div id="mensagem-especial" style="display:none; position:fixed; top:20%; left:50%; transform:translate(-50%,-50%); background:#ffffffd5; padding:30px; border-radius:15px; box-shadow:0 0 20px rgba(0,0,0,0.2); font-family:Poppins; font-size:1.5rem; color:#06AA48; width:300px; z-index:9999;">
+  VOCÊ FEZ A MELHOR ESCOLHA DA SUA VIDA 💚
+</div>
+  <script>
+    let chuvaAtivada = false;
+
+    function criarCoracao() {
+      const coracao = document.createElement("div");
+      coracao.classList.add("heart");
+      coracao.innerText = "❤️";
+      coracao.style.left = Math.random() * 100 + "vw";
+      coracao.style.fontSize = (16 + Math.random() * 20) + "px";
+      coracao.style.animationDuration = 3 + Math.random() * 2 + "s";
+      document.body.appendChild(coracao);
+
+      setTimeout(() => coracao.remove(), 5000);
+    }
+
+    const fim = document.querySelector('.fim');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !chuvaAtivada) {
+          chuvaAtivada = true;
+          const intervalo = setInterval(criarCoracao, 200);
+          setTimeout(() => {
+            clearInterval(intervalo);
+            chuvaAtivada = false;
+          }, 5000);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    observer.observe(fim);
+
+    function mostrarHistoria() {
+      const historia = document.getElementById('historia');
+      historia.style.display = 'block';
+      historia.scrollIntoView({ behavior: 'smooth' });
+
+      document.querySelectorAll('.timeline div').forEach((div, index) => {
+        if (index % 2 !== 0) {
+          div.classList.add('esquerda');
+        }
+      });
+
+      animarTimeline();
+    }
+
+    function animarTimeline() {
+      const divs = document.querySelectorAll('.timeline div');
+      divs.forEach((div, index) => {
+        const posicao = div.getBoundingClientRect().top;
+        const alturaTela = window.innerHeight;
+        if (posicao < alturaTela - 300 && posicao > -150) {
+          if (index % 2 === 0) {
+            div.classList.add('aparecer-direita');
+            div.classList.remove('aparecer-esquerda');
+          } else {
+            div.classList.add('aparecer-esquerda');
+            div.classList.remove('aparecer-direita');
+          }
+        } else {
+          div.classList.remove('aparecer-direita', 'aparecer-esquerda');
+        }
+      });
+    }
+
+    const texto = "Feliz Dia dos Namorados, meu amor ❤️";
+    const titulo = document.getElementById("titulo");
+    let i = 0;
+    function digitar() {
+      if (i < texto.length) {
+        titulo.innerHTML += texto.charAt(i);
+        i++;
+        setTimeout(digitar, 100);
+      }
+    }
+
+    window.onload = digitar;
+    window.addEventListener('scroll', animarTimeline);
+
+    //button não
+
+    const botaoNao = document.querySelector('footer button:nth-child(2)'); // segundo botão = NÃO
+
+botaoNao.addEventListener('click', () => {
+  const largura = window.innerWidth - botaoNao.offsetWidth;
+  const altura = window.innerHeight - botaoNao.offsetHeight;
+
+  const novaEsquerda = Math.random() * largura;
+  const novoTopo = Math.random() * altura;
+
+  botaoNao.style.position = 'absolute';
+  botaoNao.style.left = `${novaEsquerda}px`;
+  botaoNao.style.top = `${novoTopo}px`;
+});
+
+//SIM
+
+document.querySelector('footer button:first-child').addEventListener('click', () => {
+  const mensagem = document.getElementById('mensagem-especial');
+  
+  // Mostrar a mensagem
+  mensagem.style.display = 'block';
+
+  // Estourar confetes
+  const duration = 2000;
+  const end = Date.now() + duration;
+
+  (function frame() {
+    confetti({
+      particleCount: 7,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 }
+    });
+    confetti({
+      particleCount: 7,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1 }
+    });
+
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  })();
+
+  // Ocultar a mensagem depois de 5 segundos
+  setTimeout(() => {
+    mensagem.style.display = 'none';
+  }, 5000);
+});
+''
+
+  </script>
+</body>
+</html>
